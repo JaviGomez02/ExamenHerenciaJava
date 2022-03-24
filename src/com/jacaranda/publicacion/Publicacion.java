@@ -14,9 +14,9 @@ public abstract class Publicacion implements Valorable{
 	private static int codigoSiguiente=1;
 	protected Usuario usuario;
 	
-	public Publicacion(String texto, Usuario usuario) {
+	public Publicacion(String texto, Usuario usuario) throws PublicacionException {
 		super();
-		this.texto = texto;
+		this.setTexto(texto);
 		this.usuario = usuario;
 		this.codigo=codigoSiguiente++;
 		this.valoracion=0;

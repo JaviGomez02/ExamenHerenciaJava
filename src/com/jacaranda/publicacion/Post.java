@@ -10,9 +10,6 @@ public class Post extends Publicacion {
 	
 	public Post(String texto, Usuario usuario, String tema) throws PublicacionException {
 		super(texto, usuario);
-		if (texto.equals("")) { //Controla que el texto no esté vaciío
-			throw new PublicacionException("El Post no puede estar vacío");
-		}
 		this.tema = tema;
 		this.numeroLecturas=0;
 		

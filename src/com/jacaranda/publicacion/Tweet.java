@@ -9,9 +9,6 @@ public class Tweet extends Publicacion {
 	
 	public Tweet(String texto, Usuario usuario) throws PublicacionException {
 		super(texto, usuario);
-		if (texto.length()>50) { //Controla el tamaño del texto
-			throw new PublicacionException("El texto solo puede tener 50 caracteres");
-		}
 
 	}
 

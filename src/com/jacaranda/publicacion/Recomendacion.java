@@ -9,9 +9,6 @@ public class Recomendacion extends Publicacion {
 	
 	public Recomendacion(String texto, Usuario usuario, int numeroEstrellas) throws PublicacionException {
 		super(texto, usuario);
-		if (texto.length()<100 || texto.length()>200) { //Controla el tamaño del texto
-			throw new PublicacionException("Numero de caracteres incorrecto");
-		}
 		this.numeroEstrellas = numeroEstrellas;
 	}
 
