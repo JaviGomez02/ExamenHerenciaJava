@@ -8,10 +8,14 @@ public class Post extends Publicacion {
 	private String tema;
 	
 	
-	public Post(String texto, Usuario usuario, String tema) {
+	public Post(String texto, Usuario usuario, String tema) throws PublicacionException {
 		super(texto, usuario);
+		if (texto.equals("")) { //Controla que el texto no esté vaciío
+			throw new PublicacionException("El Post no puede estar vacío");
+		}
 		this.tema = tema;
 		this.numeroLecturas=0;
+		
 	}
 
 
@@ -25,14 +29,14 @@ public class Post extends Publicacion {
 	}
 	public boolean valorar(String valoracion) throws PublicacionException {
 		boolean resultado=false;
-		if (valoracion.equals("SUPERBUENA") || valoracion.equals("MUYBUENA") || valoracion.equals("BUENA") || valoracion.equals("NORMAL") || valoracion.equals("REGULAR") || valoracion.equals("MUYMALA")) {
+		try {
 			this.valoracion=this.valoracion+Valoraciones.valueOf(valoracion).getValoracion();
 			resultado=true;
+			this.numeroLecturas++;
+		} catch (Exception e) {
+			throw new PublicacionException("Introduce el valor correcto");
+
 		}
-		else {
-			throw new PublicacionException("Introduce una valoracion válida");
-		}
-		this.numeroLecturas++; //Cada vez que se valore un post se incrementa el numero de lecturas
 		
 		return resultado;
 		

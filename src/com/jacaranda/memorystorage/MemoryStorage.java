@@ -3,6 +3,7 @@ package com.jacaranda.memorystorage;
 
 import com.jacaranda.publicacion.Post;
 import com.jacaranda.publicacion.Publicacion;
+import com.jacaranda.publicacion.PublicacionException;
 import com.jacaranda.publicacion.Recomendacion;
 import com.jacaranda.publicacion.Tweet;
 import com.jacaranda.usuario.Usuario;
@@ -39,53 +40,33 @@ public class MemoryStorage {
 		this.usuarios[this.numUsuariosActuales]=new Usuario(login,contrasena);
 		this.numUsuariosActuales++;
 	}
-	public void addPublicacion(String texto, String login) throws MemoryStorageException {
-		if (texto.length()>50) {
-			throw new MemoryStorageException("El texto no puede tener mas de 50 caracteres");
+	
+	public void addPublicacion(String texto, String login) throws MemoryStorageException, PublicacionException {
+		if (posicionUsuario(login)>=0) {
+			publicaciones[this.numPublicacionesActuales]=new Tweet(texto,usuarios[posicionUsuario(login)]); //Si el usuario existe, se crea la publicacion y se mete en el array
+			this.numPublicacionesActuales++;
 		}
-		boolean encontrado=false;
-		for (int i = 0; i < this.numUsuariosActuales && encontrado==false; i++) { //Primero busca si el usuario existe
-			if (usuarios[i].getLogin().equals(login)) {
-				encontrado=true;
-				publicaciones[this.numPublicacionesActuales]=new Tweet(texto,usuarios[i]); //Si el usuario existe, se crea la publicacion y se mete en el array
-				this.numPublicacionesActuales++;
-			}
-		}
-		if (encontrado==false) {
+		else {
 			throw new MemoryStorageException("Usuario no encontrado");
 		}
 		
 	}
-	public void addPublicacion(String texto, String login, String tema) throws MemoryStorageException {
-		if (texto.equals("")) {
-			throw new MemoryStorageException("El texto no puede estar vacio");
+	public void addPublicacion(String texto, String login, String tema) throws MemoryStorageException, PublicacionException {
+		if (posicionUsuario(login)>=0) {
+			publicaciones[this.numPublicacionesActuales]=new Post(texto,usuarios[posicionUsuario(login)],tema); //Si el usuario existe, se crea la publicacion y se mete en el array
+			this.numPublicacionesActuales++;
 		}
-		boolean encontrado=false;
-		for (int i = 0; i < this.numUsuariosActuales && encontrado==false; i++) { //Busca si existe el usuario
-			if (usuarios[i].getLogin().equals(login)) {
-				encontrado=true;
-				publicaciones[this.numPublicacionesActuales]=new Post(texto,usuarios[i],tema); //Se crea la publicacion y se introduce en el array
-				this.numPublicacionesActuales++;
-			}
-		}
-		if (encontrado==false) {
+		else {
 			throw new MemoryStorageException("Usuario no encontrado");
 		}
 		
 	}
-	public void addPublicacion(String texto, String login, int estrellas) throws MemoryStorageException {
-		if (texto.length()<100 || texto.length()>200) {
-			throw new MemoryStorageException("El texto debe tener entre 100 y 200 caracteres");
+	public void addPublicacion(String texto, String login, int estrellas) throws MemoryStorageException, PublicacionException {
+		if (posicionUsuario(login)>=0) {
+			publicaciones[this.numPublicacionesActuales]=new Recomendacion(texto,usuarios[posicionUsuario(login)],estrellas); //Si el usuario existe, se crea la publicacion y se mete en el array
+			this.numPublicacionesActuales++;
 		}
-		boolean encontrado=false;
-		for (int i = 0; i < this.numUsuariosActuales && encontrado==false; i++) { //Busca si existe el usuario
-			if (usuarios[i].getLogin().equals(login)) {
-				encontrado=true;
-				publicaciones[this.numPublicacionesActuales]=new Recomendacion(texto,usuarios[i],estrellas); //Se crea una recomendacion y se mete en el array
-				this.numPublicacionesActuales++;
-			}
-		}
-		if (encontrado==false) {
+		else {
 			throw new MemoryStorageException("Usuario no encontrado");
 		}
 		
@@ -113,7 +94,7 @@ public class MemoryStorage {
 		StringBuilder resultado=new StringBuilder();
 		for (int i = 0; i < this.numPublicacionesActuales; i++) {
 			if (publicaciones[i] instanceof Post) { //Añadimos en el array los elementos que son instancias de Post
-				resultado.append(publicaciones[i].toString()+"\n"+"\n");
+			resultado.append(publicaciones[i].toString()+"\n"+"\n");
 			}
 		}
 		return resultado.toString();
