@@ -36,12 +36,18 @@ public class MemoryStorage {
 		return posicion;
 			
 	}
-	public void addUsuario(String login, String contrasena) { //Añade un usuario e incrementa el numero de usuarios
+	public void addUsuario(String login, String contrasena) throws MemoryStorageException { //Añade un usuario e incrementa el numero de usuarios
+		if (this.numUsuariosActuales==this.NUM_MAXIMO_USUARIOS) {
+			throw new MemoryStorageException("No queda espacio para añadir más usuarios");
+		}
 		this.usuarios[this.numUsuariosActuales]=new Usuario(login,contrasena);
 		this.numUsuariosActuales++;
 	}
 	
 	public void addPublicacion(String texto, String login) throws MemoryStorageException, PublicacionException {
+		if (this.numPublicacionesActuales==this.NUM_MAXIMO_MENSAJES) {
+			throw new MemoryStorageException("No queda espacio para añadir más publicaciones");
+		}
 		if (posicionUsuario(login)>=0) {
 			publicaciones[this.numPublicacionesActuales]=new Tweet(texto,usuarios[posicionUsuario(login)]); //Si el usuario existe, se crea la publicacion y se mete en el array
 			this.numPublicacionesActuales++;
@@ -52,6 +58,9 @@ public class MemoryStorage {
 		
 	}
 	public void addPublicacion(String texto, String login, String tema) throws MemoryStorageException, PublicacionException {
+		if (this.numPublicacionesActuales==this.NUM_MAXIMO_MENSAJES) {
+			throw new MemoryStorageException("No queda espacio para añadir más publicaciones");
+		}
 		if (posicionUsuario(login)>=0) {
 			publicaciones[this.numPublicacionesActuales]=new Post(texto,usuarios[posicionUsuario(login)],tema); //Si el usuario existe, se crea la publicacion y se mete en el array
 			this.numPublicacionesActuales++;
@@ -62,6 +71,9 @@ public class MemoryStorage {
 		
 	}
 	public void addPublicacion(String texto, String login, int estrellas) throws MemoryStorageException, PublicacionException {
+		if (this.numPublicacionesActuales==this.NUM_MAXIMO_MENSAJES) {
+			throw new MemoryStorageException("No queda espacio para añadir más publicaciones");
+		}
 		if (posicionUsuario(login)>=0) {
 			publicaciones[this.numPublicacionesActuales]=new Recomendacion(texto,usuarios[posicionUsuario(login)],estrellas); //Si el usuario existe, se crea la publicacion y se mete en el array
 			this.numPublicacionesActuales++;
