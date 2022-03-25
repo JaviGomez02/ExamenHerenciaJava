@@ -24,7 +24,7 @@ public class Tweet extends Publicacion {
 		boolean resultado=false;
 		try {
 			super.valorar(valoracion);
-			this.valoracion=this.getValoracion()*2;
+			this.valoracion=super.getValoracion()*2;
 			resultado=true;
 		} catch (Exception e) {
 			throw new PublicacionException("Introduce el valor correcto");

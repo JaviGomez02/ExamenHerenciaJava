@@ -65,12 +65,11 @@ public abstract class Publicacion implements Valorable{
 	}
 	public boolean valorar(String valoracion) throws PublicacionException {
 		boolean resultado=false; 
-		if (valoracion.equals("SUPERBUENA") || valoracion.equals("MUYBUENA") || valoracion.equals("BUENA") || valoracion.equals("NORMAL") || valoracion.equals("REGULAR") || valoracion.equals("MUYMALA")) {
+		try {
 			this.valoracion=this.valoracion+Valoraciones.valueOf(valoracion).getValoracion(); //Recibe el valor del enumerado correspondiente y se lo suma a valoraciones
 			resultado=true;
-		}
-		else {
-			throw new PublicacionException("Introduce una valoracion válida"); //Controla que la valoracion introducida sea correcta
+		} catch (Exception e) {
+			throw new PublicacionException("Introduce una valoracion válida");
 		}
 		
 		return resultado;
