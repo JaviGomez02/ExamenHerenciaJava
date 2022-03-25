@@ -27,7 +27,8 @@ public class Post extends Publicacion {
 	public boolean valorar(String valoracion) throws PublicacionException {
 		boolean resultado=false;
 		try {
-			this.valoracion=this.valoracion+Valoraciones.valueOf(valoracion).getValoracion();
+			super.valorar(valoracion);
+			this.valoracion=super.getValoracion();
 			resultado=true;
 			this.numeroLecturas++;
 		} catch (Exception e) {
